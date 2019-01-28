@@ -1,20 +1,20 @@
-/* Load Driver Data Access Object */
-const DriverDao = require('../dao/driverDao');
+/* Load User Data Access Object */
+const UserDao = require('../dao/userDao');
 
 /* Load Controller Common function */
-const controllerCommon = require('./common/controllerCommon');
+const ControllerCommon = require('./common/controllerCommon');
 
-/* Load Driver entity */
-const Driver = require('../model/driver');
+/* Load User entity */
+const User = require('../model/user');
 
 /**
- * Driver Controller
+ * User Controller
  */
-class DriverController {
+class UserController {
 
     constructor() {
-        this.driverDao = new DriverDao();
-        this.common = new controllerCommon();
+        this.userDao = new UserDao();
+        this.common = new ControllerCommon();
     }
 
     /**
@@ -24,7 +24,8 @@ class DriverController {
      */
     findById(req, res) {
         let id = req.params.id;
-        this.driverDao.findById(id)
+
+        this.userDao.findById(id)
             .then(this.common.findSuccess(res))
             .catch(this.common.findError(res));
     };
@@ -34,9 +35,28 @@ class DriverController {
      * @return all entities
      */
     findAll(res) {
-        this.driverDao.findAll()
+        this.userDao.findAll()
             .then(this.common.findSuccess(res))
             .catch(this.common.findError(res));
+    };
+
+    /**
+     * User Validation.
+     * @return all entities
+     */
+    validateUser(req,res) {
+      let user = new User();
+      user.name = req.body.name;
+      user.pwd = req.body.pwd;
+
+      console.log('validate ');
+      console.log(req.body.name);
+      console.log(req.body.pwd);
+      //console.log(user);
+
+        return this.userDao.validateUser(user)
+              .then(this.common.findSuccess(res))
+              .catch(this.common.serverError(res));
     };
 
     /**
@@ -44,7 +64,8 @@ class DriverController {
      * @return count
      */
     countAll(res) {
-        this.driverDao.countAll()
+
+        this.userDao.countAll()
             .then(this.common.findSuccess(res))
             .catch(this.common.serverError(res));
     };
@@ -55,13 +76,14 @@ class DriverController {
      * @return true if the entity has been updated, false if not found and not updated
      */
     update(req, res) {
-        let driver = new Driver();
-        driver.id = req.body.id;
-        driver.firstName = req.body.firstName;
-        driver.lastName = req.body.lastName;
-        driver.car = req.body.car;
+        let user = new User();
+        user.id = req.body.id;
+        user.name = req.body.name;
+        user.address = req.body.address;
+        user.dob = req.body.dob;
+        user.email = req.body.email;
 
-        return this.driverDao.update(driver)
+        return this.userDao.update(user)
             .then(this.common.editSuccess(res))
             .catch(this.common.serverError(res));
     };
@@ -72,24 +94,27 @@ class DriverController {
      * returns database insertion status
      */
     create(req, res) {
-        let driver = new Driver();
+        let user = new User();
         if (req.body.id) {
-            driver.id = req.body.id;
+            user.id = req.body.id;
         }
-        driver.firstName = req.body.firstName;
-        driver.lastName = req.body.lastName;
-        driver.car = req.body.car;
+        user.name = req.body.name;
+        user.address = req.body.address;
+        user.dob = req.body.dob;
+        user.email = req.body.email;
+        user.pwd = req.body.pwd;
 
         if (req.body.id) {
-            return this.driverDao.createWithId(driver)
+            return this.userDao.createWithId(user)
                 .then(this.common.editSuccess(res))
                 .catch(this.common.serverError(res));
         }
         else {
-            return this.driverDao.create(driver)
+            return this.userDao.create(user)
                 .then(this.common.editSuccess(res))
                 .catch(this.common.serverError(res));
         }
+
     };
 
     /**
@@ -100,7 +125,7 @@ class DriverController {
     deleteById(req, res) {
         let id = req.params.id;
 
-        this.driverDao.deleteById(id)
+        this.userDao.deleteById(id)
             .then(this.common.editSuccess(res))
             .catch(this.common.serverError(res));
     };
@@ -113,10 +138,10 @@ class DriverController {
     exists(req, res) {
         let id = req.params.id;
 
-        this.driverDao.exists(id)
+        this.userDao.exists(id)
             .then(this.common.existsSuccess(res))
             .catch(this.common.findError(res));
     };
 }
 
-module.exports = DriverController;
+module.exports = UserController;

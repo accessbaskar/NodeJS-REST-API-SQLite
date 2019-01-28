@@ -1,6 +1,7 @@
 /* Load modules */
 const express = require("express");
 const app = express();
+const cors = require("cors")
 const bodyParser = require("body-parser");
 
 /* Database configuration */
@@ -18,6 +19,7 @@ app.listen(port, function () {
 /* Express configuration */
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+app.use(cors());
 
 /* Router configuration */
 const REST_API_ROOT = '/api';
