@@ -15,6 +15,7 @@ class Common {
     findAll(sqlRequest) {
         return new Promise(function (resolve, reject) {
             database.db.all(sqlRequest, function (err, rows) {
+                //console.log(sqlRequest);
                 if (err) {
                     reject(
                         new DaoError(20, "Internal server error")
@@ -39,6 +40,7 @@ class Common {
                         new DaoError(11, "Invalid arguments")
                     );
                 } else if (rows === null || rows.length === 0) {
+                  console.log(rows);
                     reject(
                         new DaoError(21, "Entity not found")
                     );
@@ -53,6 +55,8 @@ class Common {
     existsOne(sqlRequest, sqlParams) {
         return new Promise(function (resolve, reject) {
             let stmt = database.db.prepare(sqlRequest);
+            console.log(sqlRequest);
+              console.log(stmt);
             stmt.each(sqlParams, function (err, row) {
                 if (err) {
                     reject(
