@@ -11,7 +11,7 @@ const database = require('./app/config/dbconfig');
 database.init();
 
 /* Init server listening */
-const port = process.argv[2] || 3000;
+const port = process.argv[2] || 5555;
 app.listen(port, function () {
     console.log("Server listening on port : " + port);
 });
