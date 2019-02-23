@@ -98,15 +98,19 @@ class UserDao {
      * returns database insertion status
      */
     create(User) {
-        let sqlRequest = "INSERT into user (name, address, dob, email, pwd, mobileno) " +
-            "VALUES ($name, $address, $dob, $email, $pwd, $mobileno)";
+        let sqlRequest = "INSERT into user (name, address, dob, email, pwd, mobileno, aboutUser, userType, donarType, createdon) " +
+            "VALUES ($name, $address, $dob, $email, $pwd, $mobileno,  $aboutUser, $userType, $donarType, $createdon)";
         let sqlParams = {
           $name: User.name,
           $address: User.address,
           $dob: User.dob,
           $email: User.email,
           $pwd: User.pwd,
-          $mobileno: User.mobileno
+          $mobileno: User.mobileno,
+          $aboutUser:User.aboutUser,
+          $userType:User.userType,
+          $donarType:User.donarType,
+          $createdon:User.createdon
         };
         return this.common.run(sqlRequest, sqlParams);
     };

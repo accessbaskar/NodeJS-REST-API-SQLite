@@ -17,7 +17,7 @@ app.listen(port, function () {
 });
 
 /* Express configuration */
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cors());
 

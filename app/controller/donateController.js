@@ -1,19 +1,19 @@
-/* Load User Data Access Object */
-const UserDao = require('../dao/userDao');
+/* Load Donate Data Access Object */
+const DonateDao = require('../dao/donateDao');
 
 /* Load Controller Common function */
 const ControllerCommon = require('./common/controllerCommon');
 
 /* Load User entity */
-const User = require('../model/user');
+const Donate = require('../model/donate');
 
 /**
- * User Controller
+ * Donate Controller
  */
-class UserController {
+class DonateController {
 
     constructor() {
-        this.userDao = new UserDao();
+        this.donateDao = new DonateDao();
         this.common = new ControllerCommon();
     }
 
@@ -25,7 +25,7 @@ class UserController {
     findById(req, res) {
         let id = req.params.id;
 
-        this.userDao.findById(id)
+        this.donateDao.findById(id)
             .then(this.common.findSuccess(res))
             .catch(this.common.findError(res));
     };
@@ -35,24 +35,9 @@ class UserController {
      * @return all entities
      */
     findAll(res) {
-        this.userDao.findAll()
+        this.donateDao.findAll()
             .then(this.common.findSuccess(res))
             .catch(this.common.findError(res));
-    };
-
-    /**
-     * User Validation.
-     * @return all entities
-     */
-    validateUser(req, res) {
-        let user = new User();
-        user.name = req.body.name;
-        user.pwd = req.body.pwd;
-        console.log('validate ');
-
-        return this.userDao.validateUser(user)
-            .then(this.common.findSuccess(res))
-            .catch(this.common.serverError(res));
     };
 
     /**
@@ -61,7 +46,7 @@ class UserController {
      */
     countAll(res) {
 
-        this.userDao.countAll()
+        this.donateDao.countAll()
             .then(this.common.findSuccess(res))
             .catch(this.common.serverError(res));
     };
@@ -72,14 +57,18 @@ class UserController {
      * @return true if the entity has been updated, false if not found and not updated
      */
     update(req, res) {
-        let user = new User();
-        user.id = req.body.id;
-        user.name = req.body.name;
-        user.address = req.body.address;
-        user.dob = req.body.dob;
-        user.email = req.body.email;
+        let donate = new Donate();
+        
 
-        return this.userDao.update(user)
+        donate.id = req.body.id;
+        donate.name = req.body.name;
+        donate.eMailID = req.body.eMailID;
+        donate.mobileNo = parseInt(req.body.mobileNo);
+        donate.amount = req.body.amount;
+        donate.createdOn = this.getDate();
+        donate.status = req.body.status;
+
+        return this.donateDao.update(user)
             .then(this.common.editSuccess(res))
             .catch(this.common.serverError(res));
     };
@@ -90,29 +79,29 @@ class UserController {
      * returns database insertion status
      */
     create(req, res) {
-        let user = new User();
+        
+        
+        let donate = new Donate();
         if (req.body.id) {
-            user.id = req.body.id;
+            donate.id = req.body.id;
         }
-
-        user.name = req.body.name;
-        user.address = req.body.address;
-        user.dob = req.body.dob;
-        user.email = req.body.email;
-        user.pwd = req.body.pwd;
-        user.mobileno = req.body.mobileno;
-        user.aboutUser = req.body.aboutUser;
-        user.userType = req.body.userType;
-        user.donarType = req.body.donarType;
-        user.createdon = this.getDate();
+        console.log('Type is ' + typeof req.body.mobileNo + ' value is ' + req.body.mobileNo);
+         
+        donate.id = req.body.id;
+        donate.name = req.body.name;
+        donate.eMailID = req.body.eMailID;
+        donate.mobileNo = req.body.mobileNo;
+        donate.amount = req.body.amount;
+        donate.createdOn = this.getDate();
+        donate.status = req.body.status;
 
         if (req.body.id) {
-            return this.userDao.createWithId(user)
+            return this.donateDao.createWithId(donate)
                 .then(this.common.editSuccess(res))
                 .catch(this.common.serverError(res));
         }
         else {
-            return this.userDao.create(user)
+            return this.donateDao.create(donate)
                 .then(this.common.editSuccess(res))
                 .catch(this.common.serverError(res));
         }
@@ -127,7 +116,7 @@ class UserController {
     deleteById(req, res) {
         let id = req.params.id;
 
-        this.userDao.deleteById(id)
+        this.donateDao.deleteById(id)
             .then(this.common.editSuccess(res))
             .catch(this.common.serverError(res));
     };
@@ -140,7 +129,7 @@ class UserController {
     exists(req, res) {
         let id = req.params.id;
 
-        this.userDao.exists(id)
+        this.donateDao.exists(id)
             .then(this.common.existsSuccess(res))
             .catch(this.common.findError(res));
     };
@@ -161,4 +150,4 @@ class UserController {
     }
 }
 
-module.exports = UserController;
+module.exports = DonateController;

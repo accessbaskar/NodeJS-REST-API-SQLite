@@ -15,7 +15,7 @@ class Common {
     findAll(sqlRequest) {
         return new Promise(function (resolve, reject) {
             database.db.all(sqlRequest, function (err, rows) {
-                //console.log(sqlRequest);
+                console.log(sqlRequest);
                 if (err) {
                     reject(
                         new DaoError(20, "Internal server error")
@@ -33,6 +33,7 @@ class Common {
 
     findOne(sqlRequest, sqlParams) {
         return new Promise(function (resolve, reject) {
+            console.log(sqlRequest);
             let stmt = database.db.prepare(sqlRequest);
             stmt.all(sqlParams, function (err, rows) {
                 if (err) {

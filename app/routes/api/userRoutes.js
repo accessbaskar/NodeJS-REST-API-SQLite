@@ -34,6 +34,7 @@ router.post('/create', function (req, res) {
 });
 
 router.post('/validateUser', function (req, res) {
+    console.log(req.body.name);
     userController.validateUser(req, res);
 });
 
