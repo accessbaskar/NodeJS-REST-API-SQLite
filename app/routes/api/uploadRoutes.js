@@ -3,9 +3,8 @@ const express = require('express');
 const router = express.Router();
 
 /* Load controller */
-const UserController = require('../../controller/userController');
-const userController = new UserController();
-
+const UploadController = require('../../controller/uploadController');
+const uploadController = new UploadController();
 
 const multer = require('multer');
 const Storage = multer.diskStorage({
@@ -37,41 +36,13 @@ const upload = multer({
     },
     fileFilter: fileFilter
 });
-
 /**
  * Car Entity routes
  */
-router.get('/count', function (req, res) {
-    userController.countAll(res);
-});
 
-router.get('/exists/:id', function (req, res) {
-    userController.exists(req, res);
-});
-
-router.get('/:id', function (req, res) {
-    userController.findById(req, res);
-});
-
-router.get('/', function (req, res) {
-    userController.findAll(res);
-});
-
-router.put('/:id', function (req, res) {
-    userController.update(req, res);
-});
-
-router.post('/create', upload.single("uploadImage"), function (req, res) {
-    userController.create(req, res);
-});
-
-router.post('/validateUser', function (req, res) {
-    console.log(req.body.name);
-    userController.validateUser(req, res);
-});
-
-router.delete('/:id', function (req, res) {
-    userController.deleteById(req, res);
+router.post('/', upload.single("uploadImage"), function (req, res) {
+    uploadController.upload(req, res);
+    console.log('FileName : ' + req.file.filename);
 });
 
 module.exports = router;

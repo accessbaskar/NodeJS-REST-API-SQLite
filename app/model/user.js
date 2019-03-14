@@ -3,7 +3,7 @@
  */
 
 class User {
-    constructor(id, name, address, dob, email, pwd, mobileno, aboutUser, userType, donarType) {
+    constructor(id, name, address, dob, email, pwd, mobileno, aboutUser, userType, donarType, role, idImage) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -14,7 +14,9 @@ class User {
         this.aboutUser = aboutUser;
         this.userType = userType;
         this.donarType = donarType;
+        this.role = role;
+        this.idImage = idImage
     }
-    
+
 }
 module.exports = User;

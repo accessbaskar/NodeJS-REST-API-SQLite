@@ -59,20 +59,19 @@ class RequestSupportController {
     update(req, res) {
         let requestSupport = new RequestSupport();
         //id, name, eMailID, typeOfNeed, requestType, mobileNo, amount, details, address, createdOn
-
         requestSupport.id = req.body.id;
-        requestSupport.name = req.body.name;
-        requestSupport.eMailID = req.body.eMailID;
-        requestSupport.typeOfNeed=req.body.typeOfNeed;
-        requestSupport.requestType=req.body.requestType;
-        requestSupport.mobileNo = parseInt(req.body.mobileNo);
-        requestSupport.amount = req.body.amount;
-        requestSupport.details=req.body.details;
-        requestSupport.address=req.body.address;
-        requestSupport.createdOn = this.getDate();
-        
+        // requestSupport.name = req.body.name;
+        // requestSupport.eMailID = req.body.eMailID;
+        // requestSupport.typeOfNeed = req.body.typeOfNeed;
+        // requestSupport.requestType = req.body.requestType;
+        // requestSupport.mobileNo = parseInt(req.body.mobileNo);
+        // requestSupport.amount = req.body.amount;
+        // requestSupport.details = req.body.details;
+        // requestSupport.address = req.body.address;
+        // requestSupport.createdOn = this.getDate();
+        requestSupport.isApproved = '1';
 
-        return this.requestSupportDao.update(user)
+        return this.requestSupportDao.update(requestSupport)
             .then(this.common.editSuccess(res))
             .catch(this.common.serverError(res));
     };
@@ -83,25 +82,27 @@ class RequestSupportController {
      * returns database insertion status
      */
     create(req, res) {
-        
-        
+
+
         let requestSupport = new RequestSupport();
         if (req.body.id) {
             requestSupport.id = req.body.id;
         }
-        
-         
+
+
         requestSupport.id = req.body.id;
         requestSupport.name = req.body.name;
         requestSupport.eMailID = req.body.eMailID;
-        requestSupport.typeOfNeed=req.body.typeOfNeed;
-        requestSupport.requestType=req.body.requestType;
+        requestSupport.typeOfNeed = req.body.typeOfNeed;
+        requestSupport.requestType = req.body.requestType;
         requestSupport.mobileNo = parseInt(req.body.mobileNo);
         requestSupport.amount = req.body.amount;
-        requestSupport.details=req.body.details;
-        requestSupport.address=req.body.address;
+        requestSupport.details = req.body.details;
+        requestSupport.address = req.body.address;
         requestSupport.createdOn = this.getDate();
-        
+        console.log('ID Image : ' + req.file.filename);
+        requestSupport.idImage = req.file.filename;
+
         if (req.body.id) {
             return this.requestSupportDao.createWithId(requestSupport)
                 .then(this.common.editSuccess(res))

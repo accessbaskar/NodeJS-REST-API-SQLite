@@ -17,7 +17,8 @@ app.listen(port, function () {
 });
 
 /* Express configuration */
-app.use(bodyParser.urlencoded({extended: true}));
+app.use('/uploaded_images', express.static('uploaded_images'));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 

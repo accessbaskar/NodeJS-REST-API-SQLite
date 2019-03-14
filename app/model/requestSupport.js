@@ -1,5 +1,5 @@
 class RequestSupport {
-    constructor(id, name, eMailID, typeOfNeed, requestType, mobileNo, amount, details, address, createdOn) {
+    constructor(id, name, eMailID, typeOfNeed, requestType, mobileNo, amount, details, address, createdOn, isApproved, idImage) {
         this.id = id;
         this.name = name;
         this.eMailID = eMailID
@@ -10,6 +10,8 @@ class RequestSupport {
         this.details = details;
         this.address = address;
         this.createdOn = createdOn;
+        this.isApproved = isApproved;
+        this.idImage = idImage
     }
 }
 module.exports = RequestSupport;

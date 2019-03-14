@@ -91,6 +91,7 @@ class UserController {
      */
     create(req, res) {
         let user = new User();
+        
         if (req.body.id) {
             user.id = req.body.id;
         }
@@ -105,6 +106,9 @@ class UserController {
         user.userType = req.body.userType;
         user.donarType = req.body.donarType;
         user.createdon = this.getDate();
+        user.role = '';
+        console.log('ID Image : ' + req.file.filename);
+        user.idImage = req.file.filename;
 
         if (req.body.id) {
             return this.userDao.createWithId(user)

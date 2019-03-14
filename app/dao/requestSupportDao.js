@@ -19,7 +19,7 @@ class RequestSupportDao {
      * @return entity
      */
     findById(id) {
-        let sqlRequest = "SELECT id, name, eMailID, typeOfNeed, requestType, mobileNo, amount, details, address, createdOn FROM requestSupport WHERE id=$id";
+        let sqlRequest = "SELECT id, name, eMailID, typeOfNeed, requestType, mobileNo, amount, details, address, createdOn, isApproved FROM requestSupport WHERE id=$id";
         let sqlParams = { $id: id };
         return this.common.findOne(sqlRequest, sqlParams).then(row =>
             new RequestSupport(row.id, row.name, row.eMailID, row.typeOfNeed, row.requestType, row.mobileNo, row.amount, row.details, row.address, row.createdOn));
@@ -31,7 +31,7 @@ class RequestSupportDao {
      * @return all entities
      */
     findAll() {
-        let sqlRequest = "SELECT * FROM requestSupport";
+        let sqlRequest = "SELECT * FROM requestSupport where isApproved=0 and approvedBy is null";
         return this.common.findAll(sqlRequest).then(rows => {
             let requestSupportCollection = [];
             for (const row of rows) {
@@ -59,8 +59,8 @@ class RequestSupportDao {
      * returns database insertion status
      */
     create(requestSupport) {
-        let sqlRequest = "INSERT into requestSupport (name, eMailID, typeOfNeed, requestType, mobileNo, amount, details, address, createdOn) " +
-            "VALUES ($name, $eMailID, $typeOfNeed, $requestType, $mobileNo, $amount, $details, $address, $createdOn)";
+        let sqlRequest = "INSERT into requestSupport (name, eMailID, typeOfNeed, requestType, mobileNo, amount, details, address, createdOn,isApproved,idImage) " +
+            "VALUES ($name, $eMailID, $typeOfNeed, $requestType, $mobileNo, $amount, $details, $address, $createdOn,$isApproved,$idImage)";
 
         let sqlParams = {
             $name: requestSupport.name,
@@ -71,7 +71,9 @@ class RequestSupportDao {
             $amount: requestSupport.amount,
             $address: requestSupport.address,
             $details: requestSupport.details,
-            $createdOn: requestSupport.createdOn
+            $createdOn: requestSupport.createdOn,
+            $isApproved: '0',
+            $idImage: requestSupport.idImage
         };
         return this.common.run(sqlRequest, sqlParams);
     };
@@ -81,9 +83,9 @@ class RequestSupportDao {
      * @params donate
      * returns database insertion status
      */
-    createWithId(donate) {
-        let sqlRequest = "INSERT into requestSupport (id,name, eMailID, typeOfNeed, requestType, mobileNo, amount, details, address, createdOn) " +
-            "VALUES ($id,$name, $eMailID, $typeOfNeed, $requestType, $mobileNo, $amount, $details, $address, $createdOn)";
+    createWithId(requestSupport) {
+        let sqlRequest = "INSERT into requestSupport (id,name, eMailID, typeOfNeed, requestType, mobileNo, amount, details, address, createdOn,idImage) " +
+            "VALUES ($id,$name, $eMailID, $typeOfNeed, $requestType, $mobileNo, $amount, $details, $address, $createdOn,$idImage)";
 
         let sqlParams = {
             $name: requestSupport.name,
@@ -94,7 +96,9 @@ class RequestSupportDao {
             $amount: requestSupport.amount,
             $address: requestSupport.address,
             $details: requestSupport.details,
-            $createdOn: requestSupport.createdOn
+            $createdOn: requestSupport.createdOn,
+            $isApproved: '0',
+            $idImage: requestSupport.idImage
         };
         return this.common.run(sqlRequest, sqlParams);
     };
@@ -118,6 +122,36 @@ class RequestSupportDao {
     exists(id) {
         let sqlRequest = "SELECT (count(*) > 0) as found FROM requestSupport WHERE id=$id";
         let sqlParams = { $id: id };
+        return this.common.run(sqlRequest, sqlParams);
+    };
+
+    update(requestSupport) {
+        let sqlRequest = "UPDATE requestSupport SET " +
+            // "name= $name, " +
+            // "eMailID= $eMailID, " +
+            // "typeOfNeed= $typeOfNeed, " +
+            // "requestType= $requestType, " +
+            // "mobileNo= $mobileNo, " +
+            // "amount= $amount, " +
+            // "address= $address, " +
+            // "details= $details, " +
+            // "createdOn= $createdOn, " +
+            "isApproved= $isApproved " +
+            "WHERE id=$id";
+
+        let sqlParams = {
+            $id: requestSupport.id,
+            // $name: requestSupport.name,
+            // $eMailID: requestSupport.eMailID,
+            // $typeOfNeed: requestSupport.typeOfNeed,
+            // $requestType: requestSupport.requestType,
+            // $mobileNo: requestSupport.mobileNo,
+            // $amount: requestSupport.amount,
+            // $details: requestSupport.details,
+            // $address: requestSupport.address,
+            // $createdOn: requestSupport.createdOn,
+            $isApproved: requestSupport.isApproved
+        };
         return this.common.run(sqlRequest, sqlParams);
     };
 }

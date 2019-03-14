@@ -9,6 +9,8 @@
     "cors": "^2.8.5",
     "ejs": "*",
     "express": "*",
+    "multer": "^1.4.1",
+    "request": "^2.88.0",
     "sqlite": "*",
     "swagger-ui-express": "^4.0.2"
   },

@@ -20,7 +20,7 @@ class UserDao {
      */
     findById(id) {
         let sqlRequest = "SELECT id, name, address, dob, email FROM User WHERE id=$id";
-        let sqlParams = {$id: id};
+        let sqlParams = { $id: id };
         return this.common.findOne(sqlRequest, sqlParams).then(row =>
             new User(row.id, row.name, row.address, row.dob, row.email, row.pwd));
     };
@@ -46,17 +46,17 @@ class UserDao {
      */
 
     validateUser(User) {
-      //let sqlRequest = "SELECT COUNT(*) FROM User WHERE name =" + $name + "and pwd =" + $pwd;
+        //let sqlRequest = "SELECT COUNT(*) FROM User WHERE name =" + $name + "and pwd =" + $pwd;
 
-      let sqlRequest = "SELECT * FROM user WHERE" +
-                        " name=$name" +
-                        " and pwd=$pwd";
-      let sqlParams = {
-          $name: User.name,
-          $pwd: User.pwd
-      };
-      console.log(User);
-      return this.common.findOne(sqlRequest, sqlParams);
+        let sqlRequest = "SELECT * FROM user WHERE" +
+            " name=$name" +
+            " and pwd=$pwd";
+        let sqlParams = {
+            $name: User.name,
+            $pwd: User.pwd
+        };
+        console.log(User);
+        return this.common.findOne(sqlRequest, sqlParams);
     };
 
 
@@ -98,19 +98,21 @@ class UserDao {
      * returns database insertion status
      */
     create(User) {
-        let sqlRequest = "INSERT into user (name, address, dob, email, pwd, mobileno, aboutUser, userType, donarType, createdon) " +
-            "VALUES ($name, $address, $dob, $email, $pwd, $mobileno,  $aboutUser, $userType, $donarType, $createdon)";
+        let sqlRequest = "INSERT into user (name, address, dob, email, pwd, mobileno, aboutUser, userType, donarType, createdon, role, idImage) " +
+            "VALUES ($name, $address, $dob, $email, $pwd, $mobileno,  $aboutUser, $userType, $donarType, $createdon, $role, $idImage)";
         let sqlParams = {
-          $name: User.name,
-          $address: User.address,
-          $dob: User.dob,
-          $email: User.email,
-          $pwd: User.pwd,
-          $mobileno: User.mobileno,
-          $aboutUser:User.aboutUser,
-          $userType:User.userType,
-          $donarType:User.donarType,
-          $createdon:User.createdon
+            $name: User.name,
+            $address: User.address,
+            $dob: User.dob,
+            $email: User.email,
+            $pwd: User.pwd,
+            $mobileno: User.mobileno,
+            $aboutUser: User.aboutUser,
+            $userType: User.userType,
+            $donarType: User.donarType,
+            $createdon: User.createdon,
+            $role: User.role,
+            $idImage: User.idImage
         };
         return this.common.run(sqlRequest, sqlParams);
     };
@@ -124,11 +126,11 @@ class UserDao {
         let sqlRequest = "INSERT into user (id, name, address, dob, email) " +
             "VALUES ($id, $name, $address, $dob, $email)";
         let sqlParams = {
-          $name: User.name,
-          $address: User.address,
-          $dob: User.dob,
-          $email: User.email,
-          $id: User.id
+            $name: User.name,
+            $address: User.address,
+            $dob: User.dob,
+            $email: User.email,
+            $id: User.id
         };
         return this.common.run(sqlRequest, sqlParams);
     };
@@ -140,7 +142,7 @@ class UserDao {
      */
     deleteById(id) {
         let sqlRequest = "DELETE FROM user WHERE id=$id";
-        let sqlParams = {$id: id};
+        let sqlParams = { $id: id };
         return this.common.run(sqlRequest, sqlParams);
     };
 
@@ -151,7 +153,7 @@ class UserDao {
      */
     exists(id) {
         let sqlRequest = "SELECT (count(*) > 0) as found FROM user WHERE id=$id";
-        let sqlParams = {$id: id};
+        let sqlParams = { $id: id };
         return this.common.run(sqlRequest, sqlParams);
     };
 }
