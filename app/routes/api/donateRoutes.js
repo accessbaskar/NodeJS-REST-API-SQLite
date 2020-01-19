@@ -13,6 +13,10 @@ router.get('/count', function (req, res) {
     donateController.countAll(res);
 });
 
+router.get('/getsum', function (req, res) {
+    donateController.getSumOfDonation(res);
+});
+
 router.get('/exists/:id', function (req, res) {
     donateController.exists(req, res);
 });

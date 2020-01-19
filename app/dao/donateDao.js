@@ -50,7 +50,10 @@ class DonateDao {
         let sqlRequest = "SELECT COUNT(*) AS count FROM Donate";
         return this.common.findOne(sqlRequest);
     };
-
+    getSum(){
+        let sqlRequest = "SELECT SUM(amount) as totalAmount from Donate where status='Y'";
+        return this.common.findOne(sqlRequest);
+    }
 
 
     /**

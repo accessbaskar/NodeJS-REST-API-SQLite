@@ -50,7 +50,11 @@ class DonateController {
             .then(this.common.findSuccess(res))
             .catch(this.common.serverError(res));
     };
-
+    getSumOfDonation(res) {
+        this.donateDao.getSum()
+            .then(this.common.findSuccess(res))
+            .catch(this.common.serverError(res));
+    }
     /**
      * Updates the given entity in the database
      * @params req, res
@@ -58,7 +62,7 @@ class DonateController {
      */
     update(req, res) {
         let donate = new Donate();
-        
+
 
         donate.id = req.body.id;
         donate.name = req.body.name;
@@ -79,14 +83,14 @@ class DonateController {
      * returns database insertion status
      */
     create(req, res) {
-        
-        
+
+
         let donate = new Donate();
         if (req.body.id) {
             donate.id = req.body.id;
         }
         console.log('Type is ' + typeof req.body.mobileNo + ' value is ' + req.body.mobileNo);
-         
+
         donate.id = req.body.id;
         donate.name = req.body.name;
         donate.eMailID = req.body.eMailID;
