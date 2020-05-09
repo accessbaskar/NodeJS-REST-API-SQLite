@@ -3,7 +3,7 @@
  */
 
 class User {
-    constructor(id, name, address, dob, email, pwd, mobileno, aboutUser, userType, donarType, role, idImage) {
+    constructor(id, name, address, dob, email, pwd, mobileno, aboutUser, userType, donarType, role, idImage,otp) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -15,7 +15,8 @@ class User {
         this.userType = userType;
         this.donarType = donarType;
         this.role = role;
-        this.idImage = idImage
+        this.idImage = idImage;
+        this.otp = otp;
     }
 
 }

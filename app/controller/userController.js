@@ -7,6 +7,8 @@ const ControllerCommon = require('./common/controllerCommon');
 /* Load User entity */
 const User = require('../model/user');
 
+const EmailClient = require('../utils/notification/email');
+
 /**
  * User Controller
  */
@@ -15,6 +17,7 @@ class UserController {
     constructor() {
         this.userDao = new UserDao();
         this.common = new ControllerCommon();
+        this.emailClient = new EmailClient();
     }
 
     /**
@@ -49,11 +52,19 @@ class UserController {
         user.name = req.body.name;
         user.pwd = req.body.pwd;
         console.log('validate ');
-
         return this.userDao.validateUser(user)
             .then(this.common.findSuccess(res))
             .catch(this.common.serverError(res));
     };
+    validateOtpWithUser(req, res) {
+        let user = new User();
+        user.id = req.body.id;
+        user.otp = req.body.otp;
+        console.log('validateOtp ');
+        return this.userDao.validateOtpWithUser(user)
+            .then(this.common.findSuccess(res))
+            .catch(this.common.serverError(res));
+    }
 
     /**
      * Counts all the records present in the database
@@ -84,6 +95,20 @@ class UserController {
             .catch(this.common.serverError(res));
     };
 
+    updateOtp(req, res) {
+
+        let user = new User();
+        user.id = req.body.id;
+        user.email = req.body.email;
+        user.otp = Math.floor(100000 + Math.random() * 900000);
+
+
+        return this.userDao.updateOtp(user)
+            .then(this.common.editSuccess(res))
+            .then(this.emailClient.sendEmail("OTP", user))
+            .catch(this.common.serverError(res));
+    };
+
     /**
      * Creates the given entity in the database
      * @params req, res
@@ -91,7 +116,7 @@ class UserController {
      */
     create(req, res) {
         let user = new User();
-        
+
         if (req.body.id) {
             user.id = req.body.id;
         }

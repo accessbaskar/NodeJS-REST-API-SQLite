@@ -7,6 +7,7 @@ const ControllerCommon = require('./common/controllerCommon');
 /* Load User entity */
 const ContactUs = require('../model/contactus');
 
+const EmailClient = require('../utils/notification/email');
 /**
  * Donate Controller
  */
@@ -15,6 +16,7 @@ class ContactusController {
     constructor() {
         this.contactusDao = new ContactusDao();
         this.common = new ControllerCommon();
+        this.emailClient = new EmailClient();
     }
 
     /**
@@ -89,11 +91,13 @@ class ContactusController {
         if (req.body.id) {
             return this.contactusDao.createWithId(contactus)
                 .then(this.common.editSuccess(res))
+                .then(this.emailClient.sendEmail("CONTACT", contactus))
                 .catch(this.common.serverError(res));
         }
         else {
             return this.contactusDao.create(contactus)
                 .then(this.common.editSuccess(res))
+                .then(this.emailClient.sendEmail("CONTACT", contactus))
                 .catch(this.common.serverError(res));
         }
 
@@ -138,6 +142,9 @@ class ContactusController {
         }
         return yyyy + '-' + mm + '-' + dd;
 
+    }
+    addNewContactEnquiry() {
+        
     }
 }
 

@@ -6,6 +6,8 @@ const router = express.Router();
 const UserController = require('../../controller/userController');
 const userController = new UserController();
 
+const EmailClient = require('../../utils/notification/email');
+const emailClient = new EmailClient();
 
 const multer = require('multer');
 const Storage = multer.diskStorage({
@@ -67,7 +69,15 @@ router.post('/create', upload.single("uploadImage"), function (req, res) {
 
 router.post('/validateUser', function (req, res) {
     console.log(req.body.name);
-    userController.validateUser(req, res);
+    userController.validateUser(req, res);    
+});
+router.post('/sendOtp',  function (req, res) {   
+    userController.updateOtp(req,res)
+});
+
+router.post('/validateOtpWithUser', function (req, res) {
+    console.log(req.body.name);
+    userController.validateOtpWithUser(req, res);    
 });
 
 router.delete('/:id', function (req, res) {

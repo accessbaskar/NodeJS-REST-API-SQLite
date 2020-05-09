@@ -48,14 +48,28 @@ class UserDao {
     validateUser(User) {
         //let sqlRequest = "SELECT COUNT(*) FROM User WHERE name =" + $name + "and pwd =" + $pwd;
 
-        let sqlRequest = "SELECT * FROM user WHERE" +
+        let sqlRequest = "SELECT id,email FROM user WHERE" +
             " name=$name" +
             " and pwd=$pwd";
         let sqlParams = {
             $name: User.name,
             $pwd: User.pwd
         };
-        console.log(User);
+        console.log(User);        
+        return this.common.findOne(sqlRequest, sqlParams);
+    };
+
+    validateOtpWithUser(User) {
+        //let sqlRequest = "SELECT COUNT(*) FROM User WHERE name =" + $name + "and pwd =" + $pwd;
+
+        let sqlRequest = "SELECT * FROM user WHERE" +
+            " id=$id" +
+            " and otp=$otp";
+        let sqlParams = {
+            $id: User.id,
+            $otp: User.otp
+        };
+        console.log(User);        
         return this.common.findOne(sqlRequest, sqlParams);
     };
 
@@ -87,6 +101,19 @@ class UserDao {
             $address: User.address,
             $dob: User.dob,
             $email: User.email,
+            $id: User.id
+        };
+        return this.common.run(sqlRequest, sqlParams);
+    };
+    updateOtp(User) {
+        let sqlRequest = "UPDATE user SET " +
+            "otp=$otp " +            
+            
+            "WHERE id=$id";
+
+        let sqlParams = {
+            $otp: User.otp,            
+            
             $id: User.id
         };
         return this.common.run(sqlRequest, sqlParams);
