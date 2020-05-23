@@ -100,6 +100,7 @@ class UserController {
         let user = new User();
         user.id = req.body.id;
         user.email = req.body.email;
+        user.name = req.body.name;
         user.otp = Math.floor(100000 + Math.random() * 900000);
 
 
@@ -138,11 +139,13 @@ class UserController {
         if (req.body.id) {
             return this.userDao.createWithId(user)
                 .then(this.common.editSuccess(res))
+                .then(this.emailClient.sendEmail("REGISTER", user))
                 .catch(this.common.serverError(res));
         }
         else {
             return this.userDao.create(user)
                 .then(this.common.editSuccess(res))
+                .then(this.emailClient.sendEmail("REGISTER", user))
                 .catch(this.common.serverError(res));
         }
 

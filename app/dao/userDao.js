@@ -48,14 +48,14 @@ class UserDao {
     validateUser(User) {
         //let sqlRequest = "SELECT COUNT(*) FROM User WHERE name =" + $name + "and pwd =" + $pwd;
 
-        let sqlRequest = "SELECT id,email FROM user WHERE" +
+        let sqlRequest = "SELECT id,name,email FROM user WHERE" +
             " name=$name" +
             " and pwd=$pwd";
         let sqlParams = {
             $name: User.name,
             $pwd: User.pwd
         };
-        console.log(User);        
+        console.log(User);
         return this.common.findOne(sqlRequest, sqlParams);
     };
 
@@ -69,7 +69,7 @@ class UserDao {
             $id: User.id,
             $otp: User.otp
         };
-        console.log(User);        
+        console.log(User);
         return this.common.findOne(sqlRequest, sqlParams);
     };
 
@@ -107,13 +107,13 @@ class UserDao {
     };
     updateOtp(User) {
         let sqlRequest = "UPDATE user SET " +
-            "otp=$otp " +            
-            
+            "otp=$otp " +
+
             "WHERE id=$id";
 
         let sqlParams = {
-            $otp: User.otp,            
-            
+            $otp: User.otp,
+
             $id: User.id
         };
         return this.common.run(sqlRequest, sqlParams);
@@ -127,6 +127,7 @@ class UserDao {
     create(User) {
         let sqlRequest = "INSERT into user (name, address, dob, email, pwd, mobileno, aboutUser, userType, donarType, createdon, role, idImage) " +
             "VALUES ($name, $address, $dob, $email, $pwd, $mobileno,  $aboutUser, $userType, $donarType, $createdon, $role, $idImage)";
+
         let sqlParams = {
             $name: User.name,
             $address: User.address,
@@ -139,8 +140,9 @@ class UserDao {
             $donarType: User.donarType,
             $createdon: User.createdon,
             $role: User.role,
-            $idImage: User.idImage
+            $idImage: User.idImager
         };
+
         return this.common.run(sqlRequest, sqlParams);
     };
 

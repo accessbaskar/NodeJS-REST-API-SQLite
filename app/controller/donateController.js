@@ -6,7 +6,7 @@ const ControllerCommon = require('./common/controllerCommon');
 
 /* Load User entity */
 const Donate = require('../model/donate');
-
+const EmailClient = require('../utils/notification/email');
 /**
  * Donate Controller
  */
@@ -15,6 +15,7 @@ class DonateController {
     constructor() {
         this.donateDao = new DonateDao();
         this.common = new ControllerCommon();
+        this.emailClient = new EmailClient();
     }
 
     /**
@@ -74,6 +75,7 @@ class DonateController {
 
         return this.donateDao.update(user)
             .then(this.common.editSuccess(res))
+            .then(this.emailClient.sendEmail("DONATE", donate))
             .catch(this.common.serverError(res));
     };
 
@@ -102,11 +104,13 @@ class DonateController {
         if (req.body.id) {
             return this.donateDao.createWithId(donate)
                 .then(this.common.editSuccess(res))
+               
                 .catch(this.common.serverError(res));
         }
         else {
             return this.donateDao.create(donate)
                 .then(this.common.editSuccess(res))
+              
                 .catch(this.common.serverError(res));
         }
 
